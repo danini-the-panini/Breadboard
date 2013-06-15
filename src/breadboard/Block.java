@@ -24,14 +24,18 @@ public abstract class Block
     int row, col;
     boolean[] powerTo;
 
-    public Block(Board parent, int row, int col)
+    public Block()
+    {
+        powerTo = new boolean[4];
+        for (int i = 0; i < 4; i++)
+            powerTo[i] = false;
+    }
+    
+    public void init(Board parent, int row, int col)
     {
         this.parent = parent;
         this.row = row;
         this.col = col;
-        powerTo = new boolean[4];
-        for (int i = 0; i < 4; i++)
-            powerTo[i] = false;
     }
     
     public abstract void render(Graphics g, int x, int y);

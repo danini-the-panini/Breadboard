@@ -11,9 +11,9 @@ public class Cross extends Block
 {
     boolean[] powered;
 
-    public Cross(Board parent, int row, int col)
+    public Cross()
     {
-        super(parent, row, col);
+        super();
         powered = new boolean[2];
         powered[0] = powered[1] = false;
     }

@@ -10,11 +10,6 @@ import org.newdawn.slick.Graphics;
 public class Wire extends Block
 {
     boolean powered = false;
-    
-    public Wire(Board parent, int row, int col)
-    {
-        super(parent, row, col);
-    }
 
     @Override
     public void render(Graphics g, int x, int y)

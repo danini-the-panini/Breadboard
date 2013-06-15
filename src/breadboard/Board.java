@@ -1,9 +1,13 @@
 package breadboard;
 
+import breadboard.ui.Toolbar;
 import static breadboard.Block.DOWN;
 import static breadboard.Block.LEFT;
 import static breadboard.Block.RIGHT;
 import static breadboard.Block.UP;
+import breadboard.ui.ButtonBar;
+import breadboard.ui.ComponentItem;
+import breadboard.ui.Item;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -27,7 +31,17 @@ public class Board extends BasicGame
     
     Block[][] board;
     
-    Toolbar toolbar;
+    ButtonBar<Item> buttonbar;
+    Toolbar<ComponentItem> componentToolbar, commonToolbar;
+    ComponentItem[] componentTools;
+    Class[] components = {
+        Wire.class,
+        Source.class,
+        Lamp.class,
+        Cross.class,
+        Transistor.class,
+        Diode.class
+    };
     
     public Board(int rows, int cols)
     {
@@ -88,13 +102,17 @@ public class Board extends BasicGame
         {
             cross[i] = new Image("res/cross_"+i+".png");
         }
-        toolbar = new Toolbar(0, 0, 6, 1, 32, new Image("res/toolbar.png"), new Image("res/toolbar_selected.png"));
-        toolbar.icons.add(new Image("res/wire_tb.png"));
-        toolbar.icons.add(new Image("res/source_tb.png"));
-        toolbar.icons.add(new Image("res/transistor_tb.png"));
-        toolbar.icons.add(new Image("res/lamp_tb.png"));
-        toolbar.icons.add(new Image("res/cross_tb.png"));
-        toolbar.icons.add(new Image("res/diode_tb.png"));
+        componentToolbar = new Toolbar(0, 32, 6, 1, 32, new Image("res/toolbar.png"),
+                new Image("res/toolbar_selected.png"));
+        
+        componentTools = new ComponentItem[components.length];
+        for (int i = 0; i < components.length; i++)
+        {
+            String compname = components[i].getSimpleName().toLowerCase();
+            componentTools[i] = new ComponentItem(new Image("res/"+ compname + "_tb.png"), compname.charAt(0),
+                    components[i]);
+            componentToolbar.add(componentTools[i]);
+        }
     }
 
     @Override
@@ -138,7 +156,7 @@ public class Board extends BasicGame
             }
         }
         
-        toolbar.render(g);
+        componentToolbar.render(g);
     }
     
     boolean shift = false;
@@ -175,36 +193,26 @@ public class Board extends BasicGame
         
         if (button == 0)
         {
-            if (!toolbar.clicked(x, y))
+            if (!componentToolbar.clicked(x, y))
             {
-                int type = toolbar.getSelected();
+                Class type = componentToolbar.getSelected().getComponent();
                 
-                if (board[row][col] != null && board[row][col].getType() == type)
+                if (board[row][col] != null && board[row][col].getClass() == type)
                 {
                     board[row][col].activate();
                 }
-                else switch (type)
+                else
                 {
-                    case Block.WIRE:
-                        board[row][col] = new Wire(this, row, col);
-                        break;
-                    case Block.SOURCE:
-                        board[row][col] = new Source(this, row, col);
-                        break;
-                    case Block.LAMP:
-                        board[row][col] = new Lamp(this, row, col);
-                        break;
-                    case Block.TRANSISTOR:
-                        board[row][col] = new Transistor(this, row, col);
-                        break;
-                    case Block.CROSS:
-                        board[row][col] = new Cross(this, row, col);
-                        break;
-                    case Block.DIODE:
-                        board[row][col] = new Diode(this, row, col);
-                        break;
-                    default:
-                        break;
+                    try
+                    {
+                        Block b = (Block)(type.newInstance());
+                        b.init(this, row, col);
+                        board[row][col] = b;
+                    }
+                    catch (InstantiationException | IllegalAccessException e)
+                    {
+                        e.printStackTrace(System.err);
+                    }
                 }
             }
         }
@@ -240,7 +248,7 @@ public class Board extends BasicGame
     @Override
     public void keyPressed(int key, char c)
     {
-        toolbar.keyPressed(c);
+        componentToolbar.keyPressed(c);
         
         if (key == Input.KEY_LSHIFT)
             shift = true;

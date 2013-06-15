@@ -14,11 +14,6 @@ public class Lamp extends Block
     int color = 0;
     boolean powered = false;
 
-    public Lamp(Board parent, int row, int col)
-    {
-        super(parent, row, col);
-    }
-
     @Override
     public void render(Graphics g, int x, int y)
     {

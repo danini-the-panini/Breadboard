@@ -16,11 +16,6 @@ public class Transistor extends Block
     boolean flip = false;
     boolean on = false;
 
-    public Transistor(Board parent, int row, int col)
-    {
-        super(parent, row, col);
-    }
-
     @Override
     public void render(Graphics g, int x, int y)
     {

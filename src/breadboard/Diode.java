@@ -11,11 +11,6 @@ public class Diode extends Block
 {
     int dir = UP;
     boolean powered = false;
-
-    public Diode(Board parent, int row, int col)
-    {
-        super(parent, row, col);
-    }
     
 
     @Override

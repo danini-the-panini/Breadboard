@@ -11,11 +11,6 @@ public class Source extends Block
 {
     boolean on = true;
 
-    public Source(Board parent, int row, int col)
-    {
-        super(parent, row, col);
-    }
-
     @Override
     public void render(Graphics g, int x, int y)
     {
