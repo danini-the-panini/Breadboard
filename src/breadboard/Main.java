@@ -15,6 +15,7 @@ public class Main
      */
     public static void main(String[] args)
     {
+        
         try
         {
             Breadboard board = new Breadboard(256, 256);
