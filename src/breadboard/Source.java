@@ -14,7 +14,7 @@ public class Source extends Block
     @Override
     public void render(Graphics g, int x, int y)
     {
-        g.drawImage(parent.source, x, y, on ? Color.red : Color.black);
+        g.drawImage(Breadboard.source, x, y, on ? Color.red : Color.black);
     }
 
     @Override

@@ -12,19 +12,19 @@ public class Toolbar<T extends Item> extends ButtonBar<T>
     Image selected;
     int s = 0;
 
-    public Toolbar(int x, int y, int rows, int cols, int iconSize, Image background, Image selected)
+    public Toolbar(int x, int y, boolean vertical, int iconSize, Image background, Image selected)
     {
-        super(x, y, rows, cols, iconSize, background);
+        super(x, y, vertical, iconSize, background);
         this.selected = selected;
     }
 
     @Override
-    public void renderItem(Graphics g, int index, int i, int j)
+    public void renderItem(Graphics g, int i)
     {
-        if (index == s)
-            drawImage(g, selected, i, j);
+        if (i == s)
+            drawImage(g, selected, i);
         
-        super.renderItem(g, index, i, j);
+        super.renderItem(g, i);
     }
     
     @Override
@@ -37,7 +37,16 @@ public class Toolbar<T extends Item> extends ButtonBar<T>
     
     public T getSelected()
     {
-        return items.get(s);
+        try
+        {
+            return items.get(s);
+        }
+        catch (Exception e) { return null; }
+    }
+    
+    public void deselect()
+    {
+        s = -1;
     }
     
 }

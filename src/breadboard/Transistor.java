@@ -24,12 +24,12 @@ public class Transistor extends Block
             Block b = parent.get(row,col,i);
             if (b != null)
             {
-                g.drawImage(parent.wire[i], x, y,
+                g.drawImage(Breadboard.wire[i], x, y,
                         (b.powerTo[(i+2)%4] || powerTo[i]) ? Color.red : Color.black);
             }
         }
         
-        g.drawImage(parent.transistor, x, y, flip ? Color.red : Color.black);
+        g.drawImage(Breadboard.transistor, x, y, flip ? Color.red : Color.black);
         
     }
 

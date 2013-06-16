@@ -1,5 +1,6 @@
 package breadboard;
 
+import java.io.Serializable;
 import org.newdawn.slick.Graphics;
 
 /*
@@ -11,7 +12,7 @@ import org.newdawn.slick.Graphics;
  *
  * @author Daniel
  */
-public abstract class Block
+public abstract class Block implements Serializable
 {
     public static final int BLOCK_SIZE = 16;
     

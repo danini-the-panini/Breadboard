@@ -21,12 +21,12 @@ public class Wire extends Block
         {
             if (parent.get(row,col,i) != null)
             {
-                g.drawImage(parent.wire[i], x, y, colour);
+                g.drawImage(Breadboard.wire[i], x, y, colour);
                 n++;
             }
         }
         if (n == 0)
-            g.drawImage(parent.dot, x, y);
+            g.drawImage(Breadboard.dot, x, y);
     }
 
     @Override

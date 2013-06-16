@@ -15,18 +15,19 @@ import org.newdawn.slick.Image;
 public class ButtonBar<T extends Item>
 {
     int x, y, width, height, iconSize;
-    int rows, cols;
+    boolean vertical;
     Image background;
     
+    boolean visible = true;
+    
     ArrayList<T> items = new ArrayList<>();
-    ArrayList<ToolbarListener> listeners = new ArrayList<>();
+    ArrayList<ButtonBarListener> listeners = new ArrayList<>();
 
-    public ButtonBar(int x, int y, int rows, int cols, int iconSize, Image background)
+    public ButtonBar(int x, int y, boolean vertical, int iconSize, Image background)
     {
         this.x = x;
         this.y = y;
-        this.rows = rows;
-        this.cols = cols;
+        this.vertical = vertical;
         this.background = background;
         this.iconSize = iconSize;
     }
@@ -36,49 +37,58 @@ public class ButtonBar<T extends Item>
         items.add(item);
     }
     
-    public void addListener(ToolbarListener listener)
+    public void addListener(ButtonBarListener listener)
     {
         listeners.add(listener);
     }
     
     public void render(Graphics g)
     {
-        g.fillRect(x, y, cols*iconSize, rows*iconSize, background, 0, 0);
+        if (!visible) return;
         
-        for (int i = 0; i < rows; i++)
+        int len = items.size();
+        
+        g.fillRect(x, y, (vertical ? 1 : len) * iconSize,
+                (vertical ? len : 1) * iconSize, background, 0, 0);
+        
+        for (int i = 0; i < len; i++)
         {
-            for (int j = 0; j < cols; j++)
-            {
-                int index = i*cols+j;
-                
-                renderItem(g, index, i, j);
-            }
+            renderItem(g, i);
         }
     }
     
-    public void renderItem(Graphics g, int index, int i, int j)
+    public void renderItem(Graphics g, int i)
     {
-        Image icon = items.get(index).icon;
-        drawImage(g, icon, i, j);
+        Image icon = items.get(i).icon;
+        drawImage(g, icon, i);
     }
     
-    public void drawImage(Graphics g, Image icon, int i, int j)
+    public void drawImage(Graphics g, Image icon, int index)
     {
+        int i = vertical ? index : 0;
+        int j = vertical ? 0 : index;
+        
         g.drawImage(icon, x+j*iconSize, y+i*iconSize, x+j*iconSize+iconSize,
                 y+i*iconSize+iconSize, 0, 0, icon.getWidth(), icon.getHeight());
     }
     
     public boolean clicked(int mx, int my)
     {
-        if (mx < x || my < y || mx > cols*iconSize + x || my > rows*iconSize + y)
+        if (!visible) return false;
+        
+        int len = items.size();
+        
+        if (mx < x || my < y ||
+                mx > (vertical ? 1 : len)*iconSize + x ||
+                my > (vertical ? len : 1)*iconSize + y)
             return false;
         
         int row = (my-y)/iconSize;
         int col = (mx-x)/iconSize;
         
-        int i = row*cols+col;
+        int i = vertical ? row : col;
         
-        if (i < 0 || i >= items.size()) return false;
+        //if (i < 0 || i >= items.size()) return false;
         
         click(i);
         return true;
@@ -86,9 +96,11 @@ public class ButtonBar<T extends Item>
     
     public boolean keyPressed(char c)
     {
+        if (!visible) return false;
+        
         for (int i = 0; i < items.size(); i++)
         {
-            if (c == items.get(i).mnemonic)
+            if (c == items.get(i).mnemonic && items.get(i).mnemonic != '\0')
             {
                 click(i);
                 return true;
@@ -99,9 +111,35 @@ public class ButtonBar<T extends Item>
     
     public void click(int i)
     {
-        for (ToolbarListener listener :listeners)
+        for (ButtonBarListener listener :listeners)
         {
-            listener.toolbarEvent(items.get(i));
+            listener.buttonBarEvent(this, items.get(i));
         }
+    }
+    
+    public int getWidth()
+    {
+        if (!visible) return 0; // TODO: should I?
+        
+        if (vertical) return iconSize;
+        return iconSize*items.size();
+    }
+    
+    public int getHeight()
+    {
+        if (!visible) return 0; // TODO: should I?
+        
+        if (vertical) return iconSize*items.size();
+        return iconSize;
+    }
+
+    public void setVisible(boolean visible)
+    {
+        this.visible = visible;
+    }
+
+    public boolean isVisible()
+    {
+        return visible;
     }
 }

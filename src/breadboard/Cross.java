@@ -23,7 +23,7 @@ public class Cross extends Block
     {
         for (int i = 0; i < powered.length; i++)
         {
-            g.drawImage(parent.cross[i], x, y, powered[i] ? Color.red : Color.black);
+            g.drawImage(Breadboard.cross[i], x, y, powered[i] ? Color.red : Color.black);
         }
     }
 

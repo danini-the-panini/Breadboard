@@ -17,7 +17,7 @@ public class Main
     {
         try
         {
-            Board board = new Board(256, 256);
+            Breadboard board = new Breadboard(256, 256);
             
             AppGameContainer container = new AppGameContainer(board, 1280, 720, false);
             

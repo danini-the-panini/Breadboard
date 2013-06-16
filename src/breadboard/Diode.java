@@ -16,8 +16,8 @@ public class Diode extends Block
     @Override
     public void render(Graphics g, int x, int y)
     {
-        parent.diode.setRotation(90*dir);
-        g.drawImage(parent.diode, x, y, powered ? Color.red : Color.black);
+        Breadboard.diode.setRotation(90*dir);
+        g.drawImage(Breadboard.diode, x, y, powered ? Color.red : Color.black);
     }
 
     @Override

@@ -9,15 +9,15 @@ import org.newdawn.slick.Graphics;
  */
 public class Lamp extends Block
 {
+    public static final transient Color[] LAMP_COLOURS = { Color.red, Color.green, Color.blue};
     
-    Color[] colors = { Color.red, Color.green, Color.blue};
     int color = 0;
     boolean powered = false;
 
     @Override
     public void render(Graphics g, int x, int y)
     {
-        g.drawImage(parent.lamp, x, y, powered ? colors[color] : Color.black);
+        g.drawImage(Breadboard.lamp, x, y, powered ? LAMP_COLOURS[color] : Color.black);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class Lamp extends Block
     @Override
     public void activate()
     {
-        color = (color+1)%colors.length;
+        color = (color+1)%LAMP_COLOURS.length;
     }
 
     @Override
