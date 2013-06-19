@@ -1,5 +1,6 @@
 package breadboard;
 
+import breadboard.face.Renderer;
 import java.io.Serializable;
 import org.newdawn.slick.Graphics;
 
@@ -39,7 +40,7 @@ public abstract class Block implements Serializable
         this.col = col;
     }
     
-    public abstract void render(Graphics g, int x, int y);
+    public abstract void render(Renderer g, int x, int y);
     
     public abstract void update();
     

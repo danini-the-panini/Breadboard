@@ -1,5 +1,6 @@
 package breadboard;
 
+import breadboard.face.Renderer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -19,7 +20,7 @@ public class Cross extends Block
     }
 
     @Override
-    public void render(Graphics g, int x, int y)
+    public void render(Renderer g, int x, int y)
     {
         for (int i = 0; i < powered.length; i++)
         {

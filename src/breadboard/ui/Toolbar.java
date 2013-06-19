@@ -1,7 +1,7 @@
 package breadboard.ui;
 
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
+import breadboard.face.Renderer;
+import breadboard.face.Sprite;
 
 /**
  *
@@ -9,17 +9,18 @@ import org.newdawn.slick.Image;
  */
 public class Toolbar<T extends Item> extends ButtonBar<T>
 {
-    Image selected;
+    Sprite selected;
     int s = 0;
 
-    public Toolbar(int x, int y, boolean vertical, int iconSize, Image background, Image selected)
+    public Toolbar(int x, int y, boolean vertical, int iconSize,
+            Sprite background, Sprite selected)
     {
         super(x, y, vertical, iconSize, background);
         this.selected = selected;
     }
 
     @Override
-    public void renderItem(Graphics g, int i)
+    public void renderItem(Renderer g, int i)
     {
         if (i == s)
             drawImage(g, selected, i);

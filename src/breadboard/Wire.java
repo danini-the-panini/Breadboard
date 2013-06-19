@@ -1,7 +1,7 @@
 package breadboard;
 
+import breadboard.face.Renderer;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 
 /**
  *
@@ -12,7 +12,7 @@ public class Wire extends Block
     boolean powered = false;
 
     @Override
-    public void render(Graphics g, int x, int y)
+    public void render(Renderer g, int x, int y)
     {
         Color colour = powered ? Color.red : Color.black;
         

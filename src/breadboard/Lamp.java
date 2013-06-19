@@ -1,5 +1,6 @@
 package breadboard;
 
+import breadboard.face.Renderer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 
@@ -15,7 +16,7 @@ public class Lamp extends Block
     boolean powered = false;
 
     @Override
-    public void render(Graphics g, int x, int y)
+    public void render(Renderer g, int x, int y)
     {
         g.drawImage(Breadboard.lamp, x, y, powered ? LAMP_COLOURS[color] : Color.black);
     }

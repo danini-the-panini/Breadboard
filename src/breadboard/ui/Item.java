@@ -1,5 +1,6 @@
 package breadboard.ui;
 
+import breadboard.face.Sprite;
 import org.newdawn.slick.Image;
 
 /**
@@ -8,15 +9,15 @@ import org.newdawn.slick.Image;
  */
 public class Item
 {
-    Image icon;
+    Sprite icon;
     char mnemonic;
 
-    public Item(Image icon)
+    public Item(Sprite icon)
     {
         this(icon,'\0');
     }
 
-    public Item(Image icon, char mnemonic)
+    public Item(Sprite icon, char mnemonic)
     {
         this.icon = icon;
         this.mnemonic = mnemonic;

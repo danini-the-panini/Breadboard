@@ -4,6 +4,7 @@
  */
 package breadboard.ui;
 
+import breadboard.face.Sprite;
 import org.newdawn.slick.Image;
 
 /**
@@ -14,13 +15,13 @@ public class ComponentItem extends Item
 {
     Class component;
 
-    public ComponentItem(Image icon, Class component)
+    public ComponentItem(Sprite icon, Class component)
     {
         super(icon);
         this.component = component;
     }
 
-    public ComponentItem(Image icon, char mnemonic, Class component)
+    public ComponentItem(Sprite icon, char mnemonic, Class component)
     {
         super(icon, mnemonic);
         this.component = component;

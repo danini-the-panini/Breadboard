@@ -1,5 +1,10 @@
 package breadboard;
 
+import breadboard.face.FaceException;
+import breadboard.face.Game;
+import breadboard.face.Renderer;
+import breadboard.face.Sprite;
+import breadboard.face.Utils;
 import breadboard.ui.Toolbar;
 import breadboard.ui.ButtonBar;
 import breadboard.ui.ComponentItem;
@@ -15,23 +20,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 
 /**
  *
  * @author Daniel
  */
-public class Breadboard extends BasicGame implements ButtonBarListener, Serializable
+public class Breadboard extends Game implements ButtonBarListener, Serializable
 {
-    static Image block, selected, dot;
-    static Image[] wire;
-    static Image source, transistor, diode, lamp;
-    static Image[] cross;
+    static Sprite block, selected, dot;
+    static Sprite[] wire;
+    static Sprite source, transistor, diode, lamp;
+    static Sprite[] cross;
     
     File saveLocation = null;
     boolean consistent = true;
@@ -62,43 +62,42 @@ public class Breadboard extends BasicGame implements ButtonBarListener, Serializ
     
     public Breadboard(int rows, int cols)
     {
-        super("Breadboard");
+        //super("Breadboard");
         
         board = new Board(rows,cols);
     }
-    
 
     @Override
-    public void init(GameContainer container) throws SlickException
+    public void init(Utils utils) throws FaceException
     {
-        container.setShowFPS(false);
+        //container.setShowFPS(false);
         
-        block = new Image("res/block.png");
-        selected = new Image("res/selected.png");
-        dot = new Image("res/dot.png");
-        wire = new Image[4];
+        block = utils.loadImage("res/block.png");
+        selected = utils.loadImage("res/selected.png");
+        dot = utils.loadImage("res/dot.png");
+        wire = new Sprite[4];
         for (int i = 0; i < wire.length; i++)
         {
-            wire[i] = new Image("res/wire_"+i+".png");
+            wire[i] = utils.loadImage("res/wire_"+i+".png");
         }
-        source = new Image("res/source.png");
-        transistor = new Image("res/transistor.png");
-        diode = new Image("res/diode.png");
-        lamp = new Image("res/lamp.png");
-        cross = new Image[2];
+        source = utils.loadImage("res/source.png");
+        transistor = utils.loadImage("res/transistor.png");
+        diode = utils.loadImage("res/diode.png");
+        lamp = utils.loadImage("res/lamp.png");
+        cross = new Sprite[2];
         for (int i = 0; i < cross.length; i++)
         {
-            cross[i] = new Image("res/cross_"+i+".png");
+            cross[i] = utils.loadImage("res/cross_"+i+".png");
         }
         
-        Image tbBackground = new Image("res/toolbar.png");
-        Image tbSelected = new Image("res/toolbar_selected.png");
+        Sprite tbBackground = utils.loadImage("res/toolbar.png");
+        Sprite tbSelected = utils.loadImage("res/toolbar_selected.png");
         
         buttonbar = new ButtonBar<>(0, 0, false, 32, tbBackground);
         
-        newItem = new Item(new Image("res/new.png"));
-        openItem = new Item(new Image("res/open.png"));
-        saveItem = new Item(new Image("res/save.png"));
+        newItem = new Item(utils.loadImage("res/new.png"));
+        openItem = new Item(utils.loadImage("res/open.png"));
+        saveItem = new Item(utils.loadImage("res/save.png"));
         
         buttonbar.add(newItem);
         buttonbar.add(openItem);
@@ -106,9 +105,9 @@ public class Breadboard extends BasicGame implements ButtonBarListener, Serializ
         
         commonToolbar = new Toolbar<>(0, buttonbar.getHeight()+8, true, 32, tbBackground, tbSelected);
         
-        cursorItem = new Item(new Image("res/cursor.png"), '.');
-        panItem = new Item(new Image("res/pan.png"), ' ');
-        editItem = new Item(new Image("res/edit.png"), 'e');
+        cursorItem = new Item(utils.loadImage("res/cursor.png"), '.');
+        panItem = new Item(utils.loadImage("res/pan.png"), ' ');
+        editItem = new Item(utils.loadImage("res/edit.png"), 'e');
         
         commonToolbar.add(cursorItem);
         commonToolbar.add(panItem);
@@ -122,7 +121,7 @@ public class Breadboard extends BasicGame implements ButtonBarListener, Serializ
         for (int i = 0; i < components.length; i++)
         {
             String compname = components[i].getSimpleName().toLowerCase();
-            componentTools[i] = new ComponentItem(new Image("res/"+ compname + "_tb.png"), compname.charAt(0),
+            componentTools[i] = new ComponentItem(utils.loadImage("res/"+ compname + "_tb.png"), compname.charAt(0),
                     components[i]);
             componentToolbar.add(componentTools[i]);
         }
@@ -140,16 +139,16 @@ public class Breadboard extends BasicGame implements ButtonBarListener, Serializ
     }
 
     @Override
-    public void update(GameContainer container, int delta) throws SlickException
+    public void update(int delta) throws FaceException
     {
         board.update(delta);
     }
     
     @Override
-    public void render(GameContainer container, Graphics g) throws SlickException
+    public void render(int width, int height, Renderer g) throws FaceException
     {
-        g.fillRect(0, 0, (ox+container.getWidth()) > board.cols*Block.BLOCK_SIZE ? (-ox+board.cols*Block.BLOCK_SIZE) : container.getWidth(),
-                (oy+container.getHeight()) > board.data.length*Block.BLOCK_SIZE ? (-oy+board.data.length*Block.BLOCK_SIZE) : container.getHeight(),
+        g.fillRect(0, 0, (ox+width) > board.cols*Block.BLOCK_SIZE ? (-ox+board.cols*Block.BLOCK_SIZE) : width,
+                (oy+height) > board.data.length*Block.BLOCK_SIZE ? (-oy+board.data.length*Block.BLOCK_SIZE) : height,
                 block, ox < 0 ? ox : ox%Block.BLOCK_SIZE+Block.BLOCK_SIZE,
                 oy < 0 ? oy : oy%Block.BLOCK_SIZE+Block.BLOCK_SIZE);
         

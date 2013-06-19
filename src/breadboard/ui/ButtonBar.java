@@ -4,6 +4,8 @@
  */
 package breadboard.ui;
 
+import breadboard.face.Renderer;
+import breadboard.face.Sprite;
 import java.util.ArrayList;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -16,14 +18,14 @@ public class ButtonBar<T extends Item>
 {
     int x, y, width, height, iconSize;
     boolean vertical;
-    Image background;
+    Sprite background;
     
     boolean visible = true;
     
     ArrayList<T> items = new ArrayList<>();
     ArrayList<ButtonBarListener> listeners = new ArrayList<>();
 
-    public ButtonBar(int x, int y, boolean vertical, int iconSize, Image background)
+    public ButtonBar(int x, int y, boolean vertical, int iconSize, Sprite background)
     {
         this.x = x;
         this.y = y;
@@ -42,7 +44,7 @@ public class ButtonBar<T extends Item>
         listeners.add(listener);
     }
     
-    public void render(Graphics g)
+    public void render(Renderer g)
     {
         if (!visible) return;
         
@@ -57,13 +59,13 @@ public class ButtonBar<T extends Item>
         }
     }
     
-    public void renderItem(Graphics g, int i)
+    public void renderItem(Renderer g, int i)
     {
-        Image icon = items.get(i).icon;
+        Sprite icon = items.get(i).icon;
         drawImage(g, icon, i);
     }
     
-    public void drawImage(Graphics g, Image icon, int index)
+    public void drawImage(Renderer g, Sprite icon, int index)
     {
         int i = vertical ? index : 0;
         int j = vertical ? 0 : index;

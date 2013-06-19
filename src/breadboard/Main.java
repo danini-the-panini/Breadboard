@@ -1,5 +1,6 @@
 package breadboard;
 
+import breadboard.slick.SlickGame;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.SlickException;
 
@@ -20,7 +21,10 @@ public class Main
         {
             Breadboard board = new Breadboard(256, 256);
             
-            AppGameContainer container = new AppGameContainer(board, 1280, 720, false);
+            SlickGame game = new SlickGame("Breadboard", board);
+            
+            AppGameContainer container = new AppGameContainer(game, 1280, 720, false);
+            container.setShowFPS(false);
             
             container.start();
         } catch (SlickException ex)
