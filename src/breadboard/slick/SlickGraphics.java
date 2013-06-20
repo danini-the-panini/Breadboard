@@ -34,9 +34,9 @@ public class SlickGraphics implements Renderer<SlickImage>
     }
 
     @Override
-    public void drawImage(SlickImage image, int x, int y, Object color)
+    public void drawImage(SlickImage image, int x, int y, int color)
     {
-        g.drawImage(image.getImage(), x, y, (Color)color);
+        g.drawImage(image.getImage(), x, y, new Color(color));
     }
 
     @Override

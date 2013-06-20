@@ -20,7 +20,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import org.newdawn.slick.Input;
 
 /**
  *
@@ -72,32 +71,32 @@ public class Breadboard extends Game implements ButtonBarListener, Serializable
     {
         //container.setShowFPS(false);
         
-        block = utils.loadImage("res/block.png");
-        selected = utils.loadImage("res/selected.png");
-        dot = utils.loadImage("res/dot.png");
+        block = utils.loadImage("./res/block.png");
+        selected = utils.loadImage("./res/selected.png");
+        dot = utils.loadImage("./res/dot.png");
         wire = new Sprite[4];
         for (int i = 0; i < wire.length; i++)
         {
-            wire[i] = utils.loadImage("res/wire_"+i+".png");
+            wire[i] = utils.loadImage("./res/wire_"+i+".png");
         }
-        source = utils.loadImage("res/source.png");
-        transistor = utils.loadImage("res/transistor.png");
-        diode = utils.loadImage("res/diode.png");
-        lamp = utils.loadImage("res/lamp.png");
+        source = utils.loadImage("./res/source.png");
+        transistor = utils.loadImage("./res/transistor.png");
+        diode = utils.loadImage("./res/diode.png");
+        lamp = utils.loadImage("./res/lamp.png");
         cross = new Sprite[2];
         for (int i = 0; i < cross.length; i++)
         {
-            cross[i] = utils.loadImage("res/cross_"+i+".png");
+            cross[i] = utils.loadImage("./res/cross_"+i+".png");
         }
         
-        Sprite tbBackground = utils.loadImage("res/toolbar.png");
-        Sprite tbSelected = utils.loadImage("res/toolbar_selected.png");
+        Sprite tbBackground = utils.loadImage("./res/toolbar.png");
+        Sprite tbSelected = utils.loadImage("./res/toolbar_selected.png");
         
         buttonbar = new ButtonBar<>(0, 0, false, 32, tbBackground);
         
-        newItem = new Item(utils.loadImage("res/new.png"));
-        openItem = new Item(utils.loadImage("res/open.png"));
-        saveItem = new Item(utils.loadImage("res/save.png"));
+        newItem = new Item(utils.loadImage("./res/new.png"));
+        openItem = new Item(utils.loadImage("./res/open.png"));
+        saveItem = new Item(utils.loadImage("./res/save.png"));
         
         buttonbar.add(newItem);
         buttonbar.add(openItem);
@@ -105,9 +104,9 @@ public class Breadboard extends Game implements ButtonBarListener, Serializable
         
         commonToolbar = new Toolbar<>(0, buttonbar.getHeight()+8, true, 32, tbBackground, tbSelected);
         
-        cursorItem = new Item(utils.loadImage("res/cursor.png"), '.');
-        panItem = new Item(utils.loadImage("res/pan.png"), ' ');
-        editItem = new Item(utils.loadImage("res/edit.png"), 'e');
+        cursorItem = new Item(utils.loadImage("./res/cursor.png"), '.');
+        panItem = new Item(utils.loadImage("./res/pan.png"), ' ');
+        editItem = new Item(utils.loadImage("./res/edit.png"), 'e');
         
         commonToolbar.add(cursorItem);
         commonToolbar.add(panItem);
@@ -121,7 +120,7 @@ public class Breadboard extends Game implements ButtonBarListener, Serializable
         for (int i = 0; i < components.length; i++)
         {
             String compname = components[i].getSimpleName().toLowerCase();
-            componentTools[i] = new ComponentItem(utils.loadImage("res/"+ compname + "_tb.png"), compname.charAt(0),
+            componentTools[i] = new ComponentItem(utils.loadImage("./res/"+ compname + "_tb.png"), compname.charAt(0),
                     components[i]);
             componentToolbar.add(componentTools[i]);
         }
@@ -202,6 +201,7 @@ public class Breadboard extends Game implements ButtonBarListener, Serializable
         buttons[button] = false;
     }
     
+    @Override
     public void mouseClicked(int button, int x, int y)
     {
         int row = (y+oy)/Block.BLOCK_SIZE;
@@ -219,39 +219,42 @@ public class Breadboard extends Game implements ButtonBarListener, Serializable
                 }
             }
             
-            if (!clicked)
+            if (row >= 0 && row < board.rows && col >= 0 && col < board.cols)
             {
-                Item currentTool = commonToolbar.getSelected();
-                
-                if (currentTool == cursorItem && board.data[row][col] != null)
+                if (!clicked)
                 {
-                    board.data[row][col].activate();
-                    
-                    consistent = false;
-                }
-                else if (currentTool == editItem)
-                {
-                    Class type = componentToolbar.getSelected().getComponent();
-                    
-                    try
+                    Item currentTool = commonToolbar.getSelected();
+
+                    if (currentTool == cursorItem && board.data[row][col] != null)
                     {
-                        Block b = (Block)(type.newInstance());
-                        b.init(board, row, col);
-                        board.data[row][col] = b;
-                        
+                        board.data[row][col].activate();
+
                         consistent = false;
                     }
-                    catch (InstantiationException | IllegalAccessException e)
+                    else if (currentTool == editItem)
                     {
-                        e.printStackTrace(System.err);
+                        Class type = componentToolbar.getSelected().getComponent();
+
+                        try
+                        {
+                            Block b = (Block)(type.newInstance());
+                            b.init(board, row, col);
+                            board.data[row][col] = b;
+
+                            consistent = false;
+                        }
+                        catch (InstantiationException | IllegalAccessException e)
+                        {
+                            e.printStackTrace(System.err);
+                        }
                     }
                 }
             }
-        }
-        else if (button == 1 && board.data[row][col] != null)
-        {
-            Block b = board.data[row][col];
-            board.data[row][col] = null;
+            else if (button == 1 && board.data[row][col] != null)
+            {
+                Block b = board.data[row][col];
+                board.data[row][col] = null;
+            }
         }
     }
 
@@ -285,17 +288,11 @@ public class Breadboard extends Game implements ButtonBarListener, Serializable
         {
             clicked = bar.keyPressed(c) || clicked;
         }
-        
-        if (key == Input.KEY_LSHIFT)
-            shift = true;
     }
 
     @Override
     public void keyReleased(int key, char c)
     {
-        
-        if (key == Input.KEY_LSHIFT)
-            shift = false;
     }
 
     @Override

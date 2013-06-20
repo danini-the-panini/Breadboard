@@ -5,7 +5,6 @@
 package breadboard;
 
 import breadboard.face.Renderer;
-import org.newdawn.slick.Color;
 
 /**
  *
@@ -25,11 +24,11 @@ public class Transistor extends Block
             if (b != null)
             {
                 g.drawImage(Breadboard.wire[i], x, y,
-                        (b.powerTo[(i+2)%4] || powerTo[i]) ? Color.red : Color.black);
+                        (b.powerTo[(i+2)%4] || powerTo[i]) ? 0xff0000 : 0x000000);
             }
         }
         
-        g.drawImage(Breadboard.transistor, x, y, flip ? Color.red : Color.black);
+        g.drawImage(Breadboard.transistor, x, y, flip ? 0xff0000 : 0x000000);
         
     }
 

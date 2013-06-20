@@ -1,7 +1,6 @@
 package breadboard;
 
 import breadboard.face.Renderer;
-import org.newdawn.slick.Color;
 
 /**
  *
@@ -14,7 +13,7 @@ public class Wire extends Block
     @Override
     public void render(Renderer g, int x, int y)
     {
-        Color colour = powered ? Color.red : Color.black;
+        int colour = powered ? 0xff0000 : 0x000000;
         
         int n = 0;
         for (int i = 0; i < 4; i++)

@@ -1,8 +1,6 @@
 package breadboard;
 
 import breadboard.face.Renderer;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 
 /**
  *
@@ -24,7 +22,7 @@ public class Cross extends Block
     {
         for (int i = 0; i < powered.length; i++)
         {
-            g.drawImage(Breadboard.cross[i], x, y, powered[i] ? Color.red : Color.black);
+            g.drawImage(Breadboard.cross[i], x, y, powered[i] ? 0xff0000 : 0x000000);
         }
     }
 

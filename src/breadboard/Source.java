@@ -1,8 +1,6 @@
 package breadboard;
 
 import breadboard.face.Renderer;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 
 /**
  *
@@ -15,7 +13,7 @@ public class Source extends Block
     @Override
     public void render(Renderer g, int x, int y)
     {
-        g.drawImage(Breadboard.source, x, y, on ? Color.red : Color.black);
+        g.drawImage(Breadboard.source, x, y, on ? 0xff0000 : 0x000000);
     }
 
     @Override

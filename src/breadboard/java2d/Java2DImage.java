@@ -19,12 +19,12 @@ public class Java2DImage implements Sprite
 {
     private BufferedImage image;
 
-    public Java2DImage(String res)
+    public Java2DImage(String ref)
             throws FaceException
     {
         try
         {
-            image = ImageIO.read(new File(res));
+            image = ImageIO.read(new File(ref));
         }
         catch (IOException ex)
         {

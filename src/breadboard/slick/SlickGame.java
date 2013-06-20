@@ -6,8 +6,7 @@ package breadboard.slick;
 
 import breadboard.face.FaceException;
 import breadboard.face.Game;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -27,6 +26,14 @@ public class SlickGame extends BasicGame
     {
         super(title);
         this.game = game;
+    }
+    
+    public void start() throws SlickException
+    {
+        AppGameContainer container = new AppGameContainer(this, 1280, 720, false);
+        container.setShowFPS(false);
+
+        container.start();
     }
 
     @Override

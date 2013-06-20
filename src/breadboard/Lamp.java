@@ -1,8 +1,6 @@
 package breadboard;
 
 import breadboard.face.Renderer;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.Graphics;
 
 /**
  *
@@ -10,7 +8,7 @@ import org.newdawn.slick.Graphics;
  */
 public class Lamp extends Block
 {
-    public static final transient Color[] LAMP_COLOURS = { Color.red, Color.green, Color.blue};
+    public static final transient int[] LAMP_COLOURS = { 0xff0000, 0x00ff00, 0x0000ff};
     
     int color = 0;
     boolean powered = false;
@@ -18,7 +16,7 @@ public class Lamp extends Block
     @Override
     public void render(Renderer g, int x, int y)
     {
-        g.drawImage(Breadboard.lamp, x, y, powered ? LAMP_COLOURS[color] : Color.black);
+        g.drawImage(Breadboard.lamp, x, y, powered ? LAMP_COLOURS[color] : 0x000000);
     }
 
     @Override

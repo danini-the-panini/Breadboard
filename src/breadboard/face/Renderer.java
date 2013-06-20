@@ -11,7 +11,7 @@ package breadboard.face;
 public interface Renderer<T extends Sprite>
 {
     public abstract void drawImage(T image, int x, int y);
-    public abstract void drawImage(T image, int x, int y, Object color);
+    public abstract void drawImage(T image, int x, int y, int color);
     public abstract void drawImage(T image, int dx1, int dy1, int dx2, int dy2,
             int sx1, int sy1, int sx2, int sy2);
     

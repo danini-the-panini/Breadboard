@@ -1,7 +1,6 @@
 package breadboard;
 
 import breadboard.face.Renderer;
-import org.newdawn.slick.Color;
 
 /**
  *
@@ -16,7 +15,7 @@ public class Diode extends Block
     public void render(Renderer g, int x, int y)
     {
         Breadboard.diode.setRotation(90*dir);
-        g.drawImage(Breadboard.diode, x, y, powered ? Color.red : Color.black);
+        g.drawImage(Breadboard.diode, x, y, powered ? 0xff0000 : 0x000000);
     }
 
     @Override

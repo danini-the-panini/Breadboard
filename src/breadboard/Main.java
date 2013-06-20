@@ -1,8 +1,7 @@
 package breadboard;
 
-import breadboard.slick.SlickGame;
-import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.SlickException;
+import breadboard.face.FaceException;
+import breadboard.java2d.Java2DGame;
 
 /**
  *
@@ -16,18 +15,25 @@ public class Main
      */
     public static void main(String[] args)
     {
+        Breadboard board = new Breadboard(256, 256);
+        
+//        try
+//        {
+//            SlickGame game = new SlickGame("Breadboard", board);
+//            
+//            game.start();
+//        } catch (SlickException ex)
+//        {
+//            ex.printStackTrace(System.err);
+//        }
+        
         
         try
         {
-            Breadboard board = new Breadboard(256, 256);
+            Java2DGame game = new Java2DGame("Breadboard", board);
             
-            SlickGame game = new SlickGame("Breadboard", board);
-            
-            AppGameContainer container = new AppGameContainer(game, 1280, 720, false);
-            container.setShowFPS(false);
-            
-            container.start();
-        } catch (SlickException ex)
+            game.start();
+        } catch (FaceException ex)
         {
             ex.printStackTrace(System.err);
         }
